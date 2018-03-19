@@ -17,6 +17,8 @@ public class EnemySpawner : MonoBehaviour
     public float ySpeed;
     private bool moveRight;
 
+    public Color[] colors;
+
     void Start()
     {
         count = 0;
@@ -85,11 +87,15 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator Spawn()
     {
+        int colorSelect = 0;
+
         while(count < armySize)
         {
+            GameObject newEnemy = (GameObject) Instantiate(enemy, transform.position, transform.rotation);
+            newEnemy.GetComponent<SpriteRenderer>().color = colors[colorSelect];
 
-            Instantiate(enemy, transform.position, transform.rotation);
             count++;
+            colorSelect = (colorSelect + 1) % colors.Length;
 
             yield return new WaitForSeconds(timeBetweenSpawns);
         }
